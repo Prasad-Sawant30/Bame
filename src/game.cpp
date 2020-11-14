@@ -2,7 +2,6 @@
 #include "game.h"
 #include "graphics.h"
 #include "input.h"
-#include<bits/stdc++.h>
 
 Game::Game() {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -21,9 +20,9 @@ void Game::gameLoop() {
 	SDL_Event event;
 	Input input;
 
-	int LAST_UPDATE_TIME = SDL_GetTicks();
+	this -> player = Sprite(graphics, "../drawables/sprites/MyChar.png", 0, 0, 16, 16, 100, 100);
 
-	std::cout << "Initializing";
+	int LAST_UPDATE_TIME = SDL_GetTicks();
 
 	while(true) {
 		input.beginNewFrame();
@@ -45,13 +44,19 @@ void Game::gameLoop() {
 
 		int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
-
 		this -> update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
-
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
+
+		this -> draw(graphics);
 	}
 }
 
-void Game::draw(Graphics &graphics) {}
+void Game::draw(Graphics &graphics) {
+	graphics.clear();
+
+	this -> player.draw(graphics, 100, 100);
+
+	graphics.flip();
+}
 
 void Game::update(float elapsedTime) {}
